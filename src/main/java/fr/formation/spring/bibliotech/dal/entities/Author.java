@@ -22,8 +22,8 @@ public class Author {
 
     // Un auteur peut avoir écrit plusieurs livres.
     // 'mappedBy' indique que la relation est gérée côté Book.
-    @ManyToMany(mappedBy = "authors")
-    private Set<Book> books;
+//    @ManyToMany(mappedBy = "authors")
+    //private Set<Book> books;
 
     public Author(String firstName, String lastName) {
         this.firstName = firstName;
