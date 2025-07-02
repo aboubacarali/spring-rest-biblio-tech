@@ -2,12 +2,14 @@ package fr.formation.spring.bibliotech.api.dto;
 
 
 import lombok.Data;
+import org.springframework.hateoas.RepresentationModel;
+
 import java.time.LocalDate;
 import java.util.Set;
 
 // DTO pour la représentation d'un livre en sortie.
 @Data
-public class BookDto {
+public class BookDto extends RepresentationModel<BookDto> {
     private Long id;
     private String title;
     private String isbn;

@@ -4,7 +4,7 @@ import fr.formation.spring.bibliotech.api.dto.AuthorDto;
 import fr.formation.spring.bibliotech.api.dto.AuthorSaveDto;
 import fr.formation.spring.bibliotech.api.mapper.AuthorMapper;
 import fr.formation.spring.bibliotech.dal.entities.Author;
-import fr.formation.spring.bibliotech.dal.entities.Book;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import fr.formation.spring.bibliotech.dal.repositories.AuthorRepository;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -38,10 +38,14 @@ public class AuthorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Author> getAuthorById(@PathVariable Long id) {
+    public ResponseEntity<AuthorDto> getAuthorById(@PathVariable Long id) {
         Optional<Author> author = this.authorRepository.findById(id);
         if (author.isPresent()) {
-            return ResponseEntity.ok(author.get());
+            AuthorDto dto = authorMapper.toDto(author.get());
+            dto.add(linkTo(methodOn(AuthorController.class).getAuthorById(id)).withSelfRel());
+            dto.add(linkTo(methodOn(AuthorController.class).getAllAuthors()).withRel("authors"));
+            dto.add(linkTo(methodOn(AuthorController.class).createAuthor(null)).withRel("authors.create"));
+            return ResponseEntity.ok(dto);
         }
         return ResponseEntity.notFound().build();
     }
