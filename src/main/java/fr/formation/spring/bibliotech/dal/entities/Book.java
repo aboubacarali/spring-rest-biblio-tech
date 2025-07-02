@@ -25,7 +25,7 @@ public class Book {
     private LocalDate publicationDate;
 
     // Un livre peut avoir plusieurs auteurs.
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable( // Table de jointure pour la relation ManyToMany
             name = "books_authors",
             joinColumns = @JoinColumn(name = "book_id"),
